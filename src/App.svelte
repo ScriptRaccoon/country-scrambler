@@ -8,6 +8,7 @@
 	let current_country_scrambled = $derived(scramble_words(current_country))
 
 	let round = $state(0)
+	let has_shown_hint = $state(false)
 
 	let country_guess = $state('')
 
@@ -15,6 +16,7 @@
 	let error = $state('')
 
 	function generate_next_country() {
+		has_shown_hint = false
 		round++
 		message = ''
 		error = ''
@@ -39,8 +41,15 @@
 	}
 
 	function show_hint() {
+		if (has_shown_hint) return
+		has_shown_hint = true
 		error = ''
 		message = current_country.substring(0, 2).toUpperCase() + '...'
+	}
+
+	function reveal() {
+		error = ''
+		message = current_country
 	}
 </script>
 
@@ -75,7 +84,11 @@
 
 			<button type="button" onclick={generate_next_country}> Skip </button>
 
-			<button type="button" onclick={show_hint}>Hint</button>
+			{#if has_shown_hint}
+				<button type="button" onclick={reveal}>Reveal</button>
+			{:else}
+				<button type="button" onclick={show_hint}>Hint</button>
+			{/if}
 		</div>
 	</form>
 
