@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { fade, fly } from 'svelte/transition'
+	import { fly } from 'svelte/transition'
 	import countries from './data/countries.json'
 	import { scramble_words } from './lib/utils'
+	import Toast, { clear_toast, open_toast } from './lib/components/Toast.svelte'
 
 	let current_index = $state(Math.floor(Math.random() * countries.length))
 	let current_country = $derived(countries[current_index].toUpperCase())
@@ -10,16 +11,13 @@
 	let round = $state(0)
 	let has_shown_hint = $state(false)
 	let country_guess = $state('')
-	let message = $state('')
-	let error = $state('')
 	let correct_guesses = $state(0)
 	let incorrect_guesses = $state(0)
 
 	function generate_next_country() {
 		has_shown_hint = false
 		round++
-		message = ''
-		error = ''
+		clear_toast()
 		country_guess = ''
 		current_country = ''
 		current_index = Math.floor(Math.random() * countries.length)
@@ -27,31 +25,40 @@
 
 	function handle_submit(e: Event) {
 		e.preventDefault()
-		message = ''
-		error = ''
+		clear_toast()
 		const is_correct = country_guess.toUpperCase() === current_country
 		if (is_correct) {
 			correct_guesses++
-			message = 'Correct! 🎉'
+			open_toast({
+				text: 'Correct! 🎉',
+				variant: 'positive',
+			})
 			setTimeout(() => {
 				generate_next_country()
 			}, 1200)
 		} else {
 			incorrect_guesses++
-			error = 'Incorrect'
+			open_toast({
+				text: 'Incorrect',
+				variant: 'negative',
+			})
 		}
 	}
 
 	function show_hint() {
 		if (has_shown_hint) return
 		has_shown_hint = true
-		error = ''
-		message = current_country.substring(0, 2).toUpperCase() + '...'
+		open_toast({
+			text: current_country.substring(0, 2).toUpperCase() + '...',
+			variant: 'positive',
+		})
 	}
 
 	function reveal() {
-		error = ''
-		message = current_country
+		open_toast({
+			text: current_country,
+			variant: 'positive',
+		})
 	}
 </script>
 
@@ -98,29 +105,9 @@
 			{/if}
 		</div>
 	</form>
-
-	<div class="message-wrapper">
-		{#if error}
-			<p
-				class="error"
-				in:fly={{ duration: 160, y: -40 }}
-				out:fade={{ duration: 160 }}
-			>
-				{error}
-			</p>
-		{/if}
-
-		{#if message}
-			<p
-				class="message"
-				in:fly={{ duration: 160, y: -40 }}
-				out:fade={{ duration: 160 }}
-			>
-				{message}
-			</p>
-		{/if}
-	</div>
 </main>
+
+<Toast />
 
 <style>
 	header {
@@ -134,8 +121,7 @@
 		padding-inline: 1rem;
 	}
 
-	.card-wrapper,
-	.message-wrapper {
+	.card-wrapper {
 		display: grid;
 
 		> * {
@@ -168,23 +154,6 @@
 			flex-direction: column;
 			gap: 0.5rem;
 		}
-	}
-
-	.error,
-	.message {
-		font-size: 1.125rem;
-		width: fit-content;
-		margin-inline: auto;
-		padding: 0.4rem 0.8rem;
-		border-radius: 0.2rem;
-	}
-
-	.error {
-		background-color: var(--negative-color);
-	}
-
-	.message {
-		background-color: var(--positive-color);
 	}
 
 	.stats {
