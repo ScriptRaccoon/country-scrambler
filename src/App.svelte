@@ -1,13 +1,11 @@
 <script lang="ts">
 	import { fade, fly, scale } from 'svelte/transition'
-	import countries from './data/countries.json'
+	import countries_en from './data/countries_en.json'
+	import countries_de from './data/countries_de.json'
 	import { scramble_words } from './lib/utils'
 	import { CircleX, CircleCheck, Info } from 'lucide-svelte'
 	import { backOut } from 'svelte/easing'
-
-	let current_index = $state(Math.floor(Math.random() * countries.length))
-	let current_country = $derived(countries[current_index].toUpperCase())
-	let current_country_scrambled = $derived(scramble_words(current_country))
+	import translations from './lib/translations.json'
 
 	let round = $state(0)
 	let show_hint = $state(false)
@@ -17,6 +15,27 @@
 	let correct_guesses = $state(0)
 	let incorrect_guesses = $state(0)
 	let is_correct = $state<true | false | null>(null)
+
+	const params = new URLSearchParams(window.location.search)
+	const lang_param = params.get('lang')
+
+	let lang = $state<'de' | 'en'>(
+		lang_param === 'de' || lang_param === 'en' ? lang_param : 'en',
+	)
+
+	$effect(() => {
+		document.documentElement.setAttribute('lang', lang)
+	})
+
+	const country_lists = {
+		en: countries_en,
+		de: countries_de,
+	}
+
+	let countries = $derived(country_lists[lang])
+	let current_index = $derived(Math.floor(Math.random() * countries.length))
+	let current_country = $derived(countries[current_index].toUpperCase())
+	let current_country_scrambled = $derived(scramble_words(current_country))
 
 	function generate_next_country() {
 		round++
@@ -46,8 +65,13 @@
 	}
 </script>
 
+<nav>
+	<a href="{window.location.origin}?lang=de" aria-current={lang === 'de'}>DE</a>
+	<a href="{window.location.origin}?lang=en" aria-current={lang === 'en'}>EN</a>
+</nav>
+
 <header>
-	<h1>Guess the Country</h1>
+	<h1>{translations.heading[lang]}</h1>
 </header>
 
 <main class="container">
@@ -68,7 +92,7 @@
 			<input
 				type="text"
 				id="country"
-				aria-label="your guess"
+				aria-label={translations.your_answer[lang]}
 				bind:value={country_guess}
 				required
 				aria-describedby="indicator"
@@ -84,25 +108,35 @@
 				>
 					{#if is_correct}
 						<CircleCheck size={24} color="var(--positive-color)" />
-						<span class="sr-only">Answer is correct</span>
+						<span class="sr-only">
+							{translations.answer_is_correct[lang]}
+						</span>
 					{:else}
 						<CircleX size={24} color="var(--negative-color)" />
-						<span class="sr-only">Answer is incorrect</span>
+						<span class="sr-only">
+							{translations.answer_is_incorrect[lang]}
+						</span>
 					{/if}
 				</div>
 			{/if}
 		</div>
 
 		<div class="actions">
-			<button>Submit</button>
+			<button>
+				{translations.submit[lang]}
+			</button>
 
-			<button type="button" onclick={generate_next_country}>Skip</button>
+			<button type="button" onclick={generate_next_country}>
+				{translations.skip[lang]}
+			</button>
 
 			{#if !show_hint}
-				<button type="button" onclick={() => (show_hint = true)}>Hint</button>
+				<button type="button" onclick={() => (show_hint = true)}>
+					{translations.hint[lang]}
+				</button>
 			{:else}
 				<button type="button" onclick={() => (reveal_country = true)}>
-					Reveal
+					{translations.reveal[lang]}
 				</button>
 			{/if}
 		</div>
@@ -111,22 +145,34 @@
 	{#if show_hint}
 		<div class="hint" in:fade={{ duration: 250 }} out:fade={{ duration: 160 }}>
 			{#if reveal_country}
-				<Info size={20} /> <strong>Country:</strong>
+				<Info size={20} /> <strong>{translations.country[lang]}:</strong>
 				<span>{current_country}</span>
 			{:else}
-				<Info size={20} /> <strong>Hint:</strong>
+				<Info size={20} /> <strong>{translations.hint[lang]}:</strong>
 				<span>{current_country.slice(0, 2)}...</span>
 			{/if}
 		</div>
 	{/if}
 
-	<section class="stats" aria-label="Statistics" aria-live="polite">
-		<strong>Guesses</strong>
-		<div class="stat" aria-label="{correct_guesses} guesses were correct">
+	<section class="score" aria-labelledby="score-label" aria-live="polite">
+		<strong id="score-label">
+			{translations.score[lang]}
+		</strong>
+		<div
+			aria-label={translations.answers_correct[lang].replace(
+				'{{ count }}',
+				String(correct_guesses),
+			)}
+		>
 			<CircleCheck size={20} color="var(--positive-color)" />
 			<span aria-hidden="true">{correct_guesses}</span>
 		</div>
-		<div class="stat" aria-label="{incorrect_guesses} guesses were incorrect">
+		<div
+			aria-label={translations.answers_incorrect[lang].replace(
+				'{{ count }}',
+				String(incorrect_guesses),
+			)}
+		>
 			<CircleX size={20} color="var(--negative-color)" />
 			<span aria-hidden="true">
 				{incorrect_guesses}
@@ -136,6 +182,23 @@
 </main>
 
 <style>
+	nav {
+		position: absolute;
+		top: 0.5rem;
+		right: 0.5rem;
+		display: flex;
+		gap: 0.5rem;
+
+		a {
+			opacity: 0.5;
+			text-decoration: none;
+		}
+
+		a[aria-current='true'] {
+			opacity: 1;
+		}
+	}
+
 	header {
 		padding-block: 2rem;
 		padding-inline: 1rem;
@@ -196,7 +259,7 @@
 		}
 	}
 
-	.stats {
+	.score {
 		margin-top: 2rem;
 		font-size: 1.125rem;
 		display: flex;

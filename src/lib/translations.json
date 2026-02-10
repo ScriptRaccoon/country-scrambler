@@ -1,0 +1,50 @@
+{
+	"heading": {
+		"en": "Guess the Country",
+		"de": "Rate das Land"
+	},
+	"your_answer": {
+		"en": "Your answer",
+		"de": "Deine Antwort"
+	},
+	"answer_is_correct": {
+		"en": "Anwswer is correct",
+		"de": "Antwort ist richtig"
+	},
+	"answer_is_incorrect": {
+		"en": "Answer is incorrect",
+		"de": "Antwort ist falsch"
+	},
+	"submit": {
+		"en": "Submit",
+		"de": "Senden"
+	},
+	"skip": {
+		"en": "Skip",
+		"de": "Überspringen"
+	},
+	"hint": {
+		"en": "Hint",
+		"de": "Hinweis"
+	},
+	"reveal": {
+		"en": "Reveal",
+		"de": "Auflösen"
+	},
+	"country": {
+		"en": "Country",
+		"de": "Land"
+	},
+	"score": {
+		"en": "Score",
+		"de": "Punktzahl"
+	},
+	"answers_correct": {
+		"en": "{{ count }} answers were correct",
+		"de": "{{ count }} Antworten waren richtig"
+	},
+	"answers_incorrect": {
+		"en": "{{ count }} answers were incorrect",
+		"de": "{{ count }} Antworten waren falsch"
+	}
+}

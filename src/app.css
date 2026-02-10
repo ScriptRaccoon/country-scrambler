@@ -47,6 +47,11 @@ strong {
 	font-weight: 500;
 }
 
+a {
+	color: inherit;
+	text-underline-offset: 2px;
+}
+
 /* ICONS */
 
 .lucide {
