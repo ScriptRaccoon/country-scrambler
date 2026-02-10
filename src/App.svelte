@@ -30,7 +30,7 @@
 
 	function handle_submit(e: Event) {
 		e.preventDefault()
-		is_correct = country_guess.toUpperCase() === current_country
+		is_correct = country_guess.trim().toUpperCase() === current_country
 		if (is_correct) {
 			if (!has_guessed && !reveal_country) {
 				correct_guesses += show_hint ? 0.5 : 1
