@@ -33,7 +33,9 @@
 		clear_toast()
 		const is_correct = country_guess.toUpperCase() === current_country
 		if (is_correct) {
-			if (!has_guessed && !has_revealed) correct_guesses++
+			if (!has_guessed && !has_revealed) {
+				correct_guesses += has_shown_hint ? 0.5 : 1
+			}
 			has_guessed = true
 			open_toast({
 				text: has_revealed ? 'Indeed' : 'Correct! 🎉',
