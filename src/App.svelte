@@ -50,11 +50,10 @@
 </header>
 
 <main class="container">
-	<div class="card-wrapper">
+	<div class="card-wrapper" aria-live="polite">
 		{#key round}
 			<div
 				class="country-card"
-				aria-live="polite"
 				out:fly={{ duration: 300, x: 200 }}
 				in:fly={{ duration: 300, x: -200 }}
 			>
@@ -119,11 +118,13 @@
 		<strong>Guesses</strong>
 		<div class="stat" aria-label="{correct_guesses} guesses were correct">
 			<CircleCheck size={20} color="var(--positive-color)" />
-			{correct_guesses}
+			<span aria-hidden="true">{correct_guesses}</span>
 		</div>
 		<div class="stat" aria-label="{incorrect_guesses} guesses were incorrect">
 			<CircleX size={20} color="var(--negative-color)" />
-			{incorrect_guesses}
+			<span aria-hidden="true">
+				{incorrect_guesses}
+			</span>
 		</div>
 	</section>
 </main>
