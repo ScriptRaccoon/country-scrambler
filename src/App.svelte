@@ -12,12 +12,16 @@
 	let round = $state(0)
 	let has_shown_hint = $state(false)
 	let country_guess = $state('')
+	let has_guessed = $state(false)
+	let has_revealed = $state(false)
 	let correct_guesses = $state(0)
 	let incorrect_guesses = $state(0)
 
 	function generate_next_country() {
 		has_shown_hint = false
 		round++
+		has_guessed = false
+		has_revealed = false
 		clear_toast()
 		country_guess = ''
 		current_country = ''
@@ -29,16 +33,18 @@
 		clear_toast()
 		const is_correct = country_guess.toUpperCase() === current_country
 		if (is_correct) {
-			correct_guesses++
+			if (!has_guessed && !has_revealed) correct_guesses++
+			has_guessed = true
 			open_toast({
-				text: 'Correct! 🎉',
+				text: has_revealed ? 'Indeed' : 'Correct! 🎉',
 				variant: 'positive',
 			})
 			setTimeout(() => {
 				generate_next_country()
 			}, 1200)
 		} else {
-			incorrect_guesses++
+			if (!has_guessed) incorrect_guesses++
+			has_guessed = true
 			open_toast({
 				text: 'Incorrect',
 				variant: 'negative',
@@ -56,6 +62,8 @@
 	}
 
 	function reveal() {
+		if (!has_shown_hint) return
+		has_revealed = true
 		open_toast({
 			text: current_country,
 			variant: 'positive',
