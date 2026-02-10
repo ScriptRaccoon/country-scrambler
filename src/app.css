@@ -7,14 +7,14 @@
 }
 
 :root {
-	--bg-color: black;
+	--bg-color: #123;
 	--font-color: white;
-	--secondary-font-color: #aaa;
-	--outline-color: #aaa;
-	--btn-color: royalblue;
-	--input-bg-color: #111;
-	--input-bg-focus-color: #222;
-	--card-color: #371;
+	--outline-color: #789;
+	--btn-color: #3973ac;
+	--input-bg-color: #111111;
+	--input-bg-focus-color: #161616;
+	--hint-bg-color: #223e5b;
+	--card-color: #318321;
 	--positive-color: #76e041;
 	--negative-color: #e93939;
 }

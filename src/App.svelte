@@ -164,6 +164,7 @@
 		width: fit-content;
 		margin-inline: auto;
 		background-color: var(--card-color);
+		box-shadow: 0 0 1rem #0004;
 		padding: 0.5rem 1rem;
 		border-radius: 0.25rem;
 		font-size: 2rem;
@@ -207,7 +208,7 @@
 	}
 
 	.hint {
-		background-color: var(--input-bg-focus-color);
+		background-color: var(--hint-bg-color);
 		padding: 0.4rem 0.6rem;
 		border-radius: 0.25rem;
 		display: flex;
