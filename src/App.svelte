@@ -46,16 +46,6 @@
 	}
 </script>
 
-<svelte:head>
-	<title>Country Scrambler</title>
-	<meta property="og:title" content="Country Scrambler" />
-	<meta property="og:description" content="Can you unscramble the country?" />
-	<meta name="description" content="Can you unscramble the country?" />
-	<meta property="og:type" content="Website" />
-	<meta property="og:url" content="https://country-scrambler.netlify.app" />
-	<meta property="og:site_name" content="Country Scrambler" />
-</svelte:head>
-
 <header>
 	<h1>Guess the Country</h1>
 </header>
