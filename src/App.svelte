@@ -66,8 +66,20 @@
 </script>
 
 <nav>
-	<a href="{window.location.origin}?lang=de" aria-current={lang === 'de'}>DE</a>
-	<a href="{window.location.origin}?lang=en" aria-current={lang === 'en'}>EN</a>
+	<a
+		href="{window.location.origin}?lang=de"
+		aria-current={lang === 'de'}
+		aria-label="Deutsche Version"
+	>
+		<img src="de.svg" alt="Deutsche Flagge" />
+	</a>
+	<a
+		href="{window.location.origin}?lang=en"
+		aria-current={lang === 'en'}
+		aria-label="English version"
+	>
+		<img src="gb.svg" alt="UK flag" />
+	</a>
 </nav>
 
 <header>
@@ -190,12 +202,17 @@
 		gap: 0.5rem;
 
 		a {
-			opacity: 0.5;
+			opacity: 0.25;
 			text-decoration: none;
 		}
 
 		a[aria-current='true'] {
 			opacity: 1;
+		}
+
+		img {
+			width: 20px;
+			border-radius: 2px;
 		}
 	}
 
