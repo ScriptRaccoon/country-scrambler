@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fly } from 'svelte/transition'
+	import { fade, fly } from 'svelte/transition'
 	import countries from './data/countries.json'
 	import { scramble_words } from './lib/utils'
 
@@ -7,12 +7,15 @@
 	let current_country = $derived(countries[current_index].toUpperCase())
 	let current_country_scrambled = $derived(scramble_words(current_country))
 
+	let round = $state(0)
+
 	let country_guess = $state('')
 
 	let message = $state('')
 	let error = $state('')
 
 	function generate_next_country() {
+		round++
 		message = ''
 		error = ''
 		country_guess = ''
@@ -46,8 +49,17 @@
 </header>
 
 <main>
-	<div class="country-card" aria-live="polite">
-		{current_country_scrambled}
+	<div class="card-wrapper">
+		{#key round}
+			<div
+				class="country-card"
+				aria-live="polite"
+				out:fly={{ duration: 300, x: 200 }}
+				in:fly={{ duration: 300, x: -200 }}
+			>
+				{current_country_scrambled}
+			</div>
+		{/key}
 	</div>
 
 	<form onsubmit={handle_submit}>
@@ -67,16 +79,40 @@
 		</div>
 	</form>
 
-	{#if error}
-		<p class="error" in:fly={{ duration: 200, y: -40 }}>{error}</p>
-	{/if}
+	<div class="message-wrapper">
+		{#if error}
+			<p
+				class="error"
+				in:fly={{ duration: 160, y: -40 }}
+				out:fade={{ duration: 160 }}
+			>
+				{error}
+			</p>
+		{/if}
 
-	{#if message}
-		<p class="message" in:fly={{ duration: 200, y: -40 }}>{message}</p>
-	{/if}
+		{#if message}
+			<p
+				class="message"
+				in:fly={{ duration: 160, y: -40 }}
+				out:fade={{ duration: 160 }}
+			>
+				{message}
+			</p>
+		{/if}
+	</div>
 </main>
 
 <style>
+	.card-wrapper,
+	.message-wrapper {
+		display: grid;
+
+		> * {
+			grid-row: 1;
+			grid-column: 1;
+		}
+	}
+
 	.country-card {
 		width: fit-content;
 		margin-inline: auto;
