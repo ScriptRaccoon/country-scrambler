@@ -14,8 +14,9 @@
 	--btn-color: royalblue;
 	--input-bg-color: #111;
 	--input-bg-focus-color: #222;
-	--positive-color: #371;
-	--negative-color: #e01b1b;
+	--card-color: #371;
+	--positive-color: #76e041;
+	--negative-color: #e93939;
 }
 
 body {
@@ -40,6 +41,10 @@ h2 {
 
 p {
 	margin-block: 1rem;
+}
+
+strong {
+	font-weight: 500;
 }
 
 /* ICONS */
@@ -86,4 +91,18 @@ button:not(:disabled) {
 
 button:focus-visible {
 	outline: 2px solid var(--font-color);
+}
+
+/* UTILITIES */
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
 }
