@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 todos.txt
+
+# Local Netlify folder
+.netlify
