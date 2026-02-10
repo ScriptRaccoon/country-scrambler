@@ -33,8 +33,19 @@ h1 {
 	text-wrap: balance;
 }
 
+h1,
+h2 {
+	font-weight: 500;
+}
+
 p {
 	margin-block: 1rem;
+}
+
+/* ICONS */
+
+.lucide {
+	vertical-align: text-bottom;
 }
 
 /* INTERACTIVE ELEMENTS */

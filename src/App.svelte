@@ -3,6 +3,7 @@
 	import countries from './data/countries.json'
 	import { scramble_words } from './lib/utils'
 	import Toast, { clear_toast, open_toast } from './lib/components/Toast.svelte'
+	import { CircleX, CircleCheck } from 'lucide-svelte'
 
 	let current_index = $state(Math.floor(Math.random() * countries.length))
 	let current_country = $derived(countries[current_index].toUpperCase())
@@ -67,11 +68,6 @@
 </header>
 
 <main class="container">
-	<div class="stats">
-		<div>Correct guesses: {correct_guesses}</div>
-		<div>Incorrect guesses: {incorrect_guesses}</div>
-	</div>
-
 	<div class="card-wrapper">
 		{#key round}
 			<div
@@ -91,6 +87,7 @@
 			id="country"
 			aria-label="your guess"
 			bind:value={country_guess}
+			required
 		/>
 
 		<div class="actions">
@@ -105,6 +102,17 @@
 			{/if}
 		</div>
 	</form>
+
+	<section class="stats" aria-label="Statistics" aria-live="polite">
+		<div class="stat" aria-label="{correct_guesses} guesses were correct">
+			<CircleCheck size={20} color="var(--positive-color)" />
+			{correct_guesses}
+		</div>
+		<div class="stat" aria-label="{incorrect_guesses} guesses were incorrect">
+			<CircleX size={20} color="var(--negative-color)" />
+			{incorrect_guesses}
+		</div>
+	</section>
 </main>
 
 <Toast />
@@ -157,7 +165,9 @@
 	}
 
 	.stats {
-		color: var(--secondary-font-color);
-		margin-bottom: 2rem;
+		margin-top: 2rem;
+		font-size: 1.125rem;
+		display: flex;
+		gap: 1rem;
 	}
 </style>
