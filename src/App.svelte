@@ -9,11 +9,11 @@
 
 	let round = $state(0)
 	let has_shown_hint = $state(false)
-
 	let country_guess = $state('')
-
 	let message = $state('')
 	let error = $state('')
+	let correct_guesses = $state(0)
+	let incorrect_guesses = $state(0)
 
 	function generate_next_country() {
 		has_shown_hint = false
@@ -31,11 +31,13 @@
 		error = ''
 		const is_correct = country_guess.toUpperCase() === current_country
 		if (is_correct) {
+			correct_guesses++
 			message = 'Correct! 🎉'
 			setTimeout(() => {
 				generate_next_country()
 			}, 1200)
 		} else {
+			incorrect_guesses++
 			error = 'Incorrect'
 		}
 	}
@@ -57,7 +59,12 @@
 	<h1>Guess the Country</h1>
 </header>
 
-<main>
+<main class="container">
+	<div class="stats">
+		<div>Correct guesses: {correct_guesses}</div>
+		<div>Incorrect guesses: {incorrect_guesses}</div>
+	</div>
+
 	<div class="card-wrapper">
 		{#key round}
 			<div
@@ -116,6 +123,17 @@
 </main>
 
 <style>
+	header {
+		padding-block: 2rem;
+		padding-inline: 1rem;
+	}
+
+	.container {
+		max-width: 600px;
+		margin-inline: auto;
+		padding-inline: 1rem;
+	}
+
 	.card-wrapper,
 	.message-wrapper {
 		display: grid;
@@ -167,5 +185,10 @@
 
 	.message {
 		background-color: var(--positive-color);
+	}
+
+	.stats {
+		color: var(--secondary-font-color);
+		margin-bottom: 2rem;
 	}
 </style>

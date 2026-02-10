@@ -9,6 +9,7 @@
 :root {
 	--bg-color: black;
 	--font-color: white;
+	--secondary-font-color: #aaa;
 	--outline-color: #aaa;
 	--btn-color: royalblue;
 	--input-bg-color: #111;
@@ -24,21 +25,12 @@ body {
 	line-height: 1.5;
 }
 
-main {
-	max-width: 600px;
-	margin-inline: auto;
-	padding-inline: 1rem;
-}
-
-header {
-	padding-block: 2rem;
-}
-
 /* ELEMENTS */
 
 h1 {
 	text-align: center;
 	font-size: 2.5rem;
+	text-wrap: balance;
 }
 
 p {
