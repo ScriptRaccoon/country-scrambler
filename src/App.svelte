@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { fade, fly } from 'svelte/transition'
+	import { fade, fly, scale } from 'svelte/transition'
 	import countries from './data/countries.json'
 	import { scramble_words } from './lib/utils'
 	import { CircleX, CircleCheck, Info } from 'lucide-svelte'
+	import { backOut } from 'svelte/easing'
 
 	let current_index = $state(Math.floor(Math.random() * countries.length))
 	let current_country = $derived(countries[current_index].toUpperCase())
@@ -85,7 +86,12 @@
 			/>
 
 			{#if is_correct !== null}
-				<div class="indicator" id="indicator" transition:fade={{ duration: 160 }}>
+				<div
+					class="indicator"
+					id="indicator"
+					in:scale={{ duration: 200, easing: backOut }}
+					out:fade={{ duration: 200 }}
+				>
 					{#if is_correct}
 						<CircleCheck size={24} color="var(--positive-color)" />
 						<span class="sr-only">Answer is correct</span>
