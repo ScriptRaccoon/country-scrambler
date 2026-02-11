@@ -14,8 +14,8 @@
 	--btn-color: #3973ac;
 	--input-bg-color: #111111;
 	--input-bg-focus-color: #161616;
-	--hint-bg-color: #223e5b;
 	--card-color: #318321;
+	--hint-bg-color: #296a1c;
 	--positive-color: #76e041;
 	--negative-color: #e93939;
 }
@@ -84,16 +84,16 @@ button {
 	border: none;
 }
 
-input {
+.input {
 	width: 100%;
 	border: 1px solid var(--outline-color);
-	font-size: 1.25rem;
-	padding: 0.4rem 0.4rem;
+	padding: 0.4rem 0.8rem;
 	border-radius: 0.25rem;
 	background-color: var(--input-bg-color);
+	font-size: 1.5rem;
 }
 
-input:focus-visible {
+.input:focus-visible {
 	background-color: var(--input-bg-focus-color);
 	outline: 1px solid var(--font-color);
 }
@@ -110,7 +110,7 @@ button:focus-visible {
 	background-color: var(--btn-color);
 	font-weight: 500;
 	font-size: 1.25rem;
-	padding: 0.2rem 0.75rem;
+	padding: 0.2rem 0.5rem;
 	border-radius: 0.25rem;
 }
 

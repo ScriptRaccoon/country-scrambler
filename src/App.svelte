@@ -177,6 +177,7 @@
 	<form onsubmit={handle_submit}>
 		<div class="input-container">
 			<input
+				class="input"
 				type="text"
 				id="country"
 				aria-label={translations.your_answer[lang]}
@@ -195,12 +196,12 @@
 					out:fade={{ duration: 200 }}
 				>
 					{#if is_correct}
-						<CircleCheck size={24} color="var(--positive-color)" />
+						<CircleCheck size={26} color="var(--positive-color)" />
 						<span class="sr-only">
 							{translations.answer_is_correct[lang]}
 						</span>
 					{:else}
-						<CircleX size={24} color="var(--negative-color)" />
+						<CircleX size={26} color="var(--negative-color)" />
 						<span class="sr-only">
 							{translations.answer_is_incorrect[lang]}
 						</span>
@@ -277,7 +278,7 @@
 
 <style>
 	nav {
-		padding-block: 0.5rem;
+		padding-block: 0.75rem 0.5rem;
 		color: var(--secondary-font-color);
 
 		.container {
@@ -343,16 +344,22 @@
 		right: 0.75rem;
 		top: 50%;
 		transform: translateY(-50%);
+		display: flex;
+		align-items: center;
 	}
 
 	.actions {
-		margin-top: 0.5rem;
+		margin-top: 0.75rem;
 		display: grid;
 		gap: 1rem;
 		grid-template-columns: repeat(3, 1fr);
 
 		@media (max-width: 420px) {
 			gap: 0.5rem;
+
+			button {
+				font-size: 1rem;
+			}
 		}
 	}
 
