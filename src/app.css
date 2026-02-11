@@ -28,6 +28,10 @@ body {
 	padding-bottom: 2rem;
 }
 
+body.overflow-hidden {
+	overflow: hidden;
+}
+
 .container {
 	max-width: 600px;
 	margin-inline: auto;

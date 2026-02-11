@@ -17,6 +17,8 @@
 	let incorrect_guesses = $state(0)
 	let is_correct = $state<true | false | null>(null)
 
+	const FLY_DURATION = 300
+
 	function reset() {
 		round = 0
 		show_hint = false
@@ -67,7 +69,11 @@
 		reveal_country = false
 		has_guessed = false
 		country_guess = ''
+		document.body.classList.add('overflow-hidden')
 		current_index = Math.floor(Math.random() * countries.length)
+		setTimeout(() => {
+			document.body.classList.remove('overflow-hidden')
+		}, FLY_DURATION + 100)
 	}
 
 	function handle_submit(e: Event) {
@@ -156,8 +162,8 @@
 		{#key round}
 			<div
 				class="country-card"
-				out:fly={{ duration: 300, x: 200 }}
-				in:fly={{ duration: 300, x: -200 }}
+				out:fly={{ duration: FLY_DURATION, x: 200 }}
+				in:fly={{ duration: FLY_DURATION, x: -200 }}
 			>
 				{current_country_scramble_display}
 			</div>
