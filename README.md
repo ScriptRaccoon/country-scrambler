@@ -1,9 +1,18 @@
 # Country Scrambler
 
-This is a basic browser quiz game. A random country is chosen, scrambled, and the user needs to guess the correct country.
+This is a browser-based quiz game. A random country is selected and scrambled. The player must guess the original name.
 
 <https://country-scrambler.netlify.app>
 
 <br /><img src="https://github.com/user-attachments/assets/ee7ac3eb-2761-4f04-b345-c8665fdd38a8" width="350" alt="mobile screenshot" />
 
+## Features
 
+- Three languages: EN, DE, ES
+- Optional hint
+- Reveal the answer if needed
+- +1 point for correct guesses
+- +0.5 points for correct guesses after using a hint
+- −1 point for incorrect guesses
+- Skip countries
+- Correct answers trigger an animation that restores the original spelling
