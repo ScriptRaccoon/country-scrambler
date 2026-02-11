@@ -224,40 +224,42 @@
 		</div>
 	</form>
 
-	{#if show_hint}
-		<div class="hint" in:fade={{ duration: 250 }} out:fade={{ duration: 160 }}>
-			{#if reveal_country}
-				<Info size={20} /> <strong>{translations.country[lang]}:</strong>
-				<span>{current_country}</span>
-			{:else}
-				<Info size={20} /> <strong>{translations.hint[lang]}:</strong>
-				<span>{current_country.slice(0, 2)}...</span>
-			{/if}
-		</div>
-	{/if}
+	<div aria-live="polite">
+		{#if show_hint}
+			<div class="hint" in:fade={{ duration: 250 }} out:fade={{ duration: 160 }}>
+				{#if reveal_country}
+					<Info size={20} /> <strong>{translations.country[lang]}:</strong>
+					<span>{current_country}</span>
+				{:else}
+					<Info size={20} /> <strong>{translations.hint[lang]}:</strong>
+					<span>{current_country.slice(0, 2)}...</span>
+				{/if}
+			</div>
+		{/if}
+	</div>
 
 	<section class="score" aria-labelledby="score-label" aria-live="polite">
 		<strong id="score-label">
 			{translations.score[lang]}
 		</strong>
-		<div
-			aria-label={translations.answers_correct[lang].replace(
-				'{{ count }}',
-				String(correct_guesses),
-			)}
-		>
+		<div>
 			<CircleCheck size={20} color="var(--positive-color)" />
 			<span aria-hidden="true">{correct_guesses}</span>
+			<span class="sr-only">
+				{translations.answers_correct[lang].replace(
+					'{{ count }}',
+					String(correct_guesses),
+				)}
+			</span>
 		</div>
-		<div
-			aria-label={translations.answers_incorrect[lang].replace(
-				'{{ count }}',
-				String(incorrect_guesses),
-			)}
-		>
+		<div>
 			<CircleX size={20} color="var(--negative-color)" />
-			<span aria-hidden="true">
-				{incorrect_guesses}
+			<span aria-hidden="true">{incorrect_guesses}</span>
+			<span class="sr-only">
+				{translations.answers_incorrect[lang].replace(
+					'{{ count }}',
+					String(incorrect_guesses),
+				)}
 			</span>
 		</div>
 	</section>
