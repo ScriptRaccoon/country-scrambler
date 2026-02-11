@@ -39,5 +39,10 @@
 		padding: 0.4rem 1.5rem;
 		border-radius: 0.25rem;
 		font-size: 2rem;
+		max-width: calc(100vw - 2rem);
+		overflow-x: auto;
+
+		scrollbar-width: thin;
+		scrollbar-color: #fffa transparent;
 	}
 </style>
