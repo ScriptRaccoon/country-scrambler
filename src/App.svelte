@@ -1,69 +1,54 @@
 <script lang="ts">
-	import { fade, fly, scale } from 'svelte/transition'
-	import countries_en from './data/countries_en.json'
-	import countries_de from './data/countries_de.json'
-	import countries_es from './data/countries_es.json'
-	import { scramble_text, unscramble_text } from './lib/utils'
-	import { CircleX, CircleCheck, Info, Github } from 'lucide-svelte'
-	import { backOut } from 'svelte/easing'
-	import translations from './lib/translations.json'
-	import { get_lang, save_lang_in_storage, type Lang } from './lib/lang'
+	import { COUNTRY_COUNT, country_lists } from '$lib/countries'
+	import { scramble_text, unscramble_text } from '$lib/scrambling'
+	import { FLY_DURATION } from '$lib/constants'
+	import MetaTags from '$lib/components/MetaTags.svelte'
+	import Nav from '$lib/components/Nav.svelte'
+	import Score from '$lib/components/Score.svelte'
+	import Header from '$lib/components/Header.svelte'
+	import CountryCard from '$lib/components/CountryCard.svelte'
+	import Actions from '$lib/components/Actions.svelte'
+	import Hint from '$lib/components/Hint.svelte'
+	import CountryInput from '$lib/components/CountryInput.svelte'
+	import { lang } from '$lib/lang.svelte'
 
 	let round = $state(0)
-	let show_hint = $state(false)
-	let reveal_country = $state(false)
-	let country_guess = $state('')
-	let has_guessed = $state(false)
-	let correct_guesses = $state(0)
-	let incorrect_guesses = $state(0)
-	let is_correct = $state<true | false | null>(null)
+	let answer = $state('')
+	let answer_is_correct = $state<boolean | null>(null)
+	let correct_answers = $state(0)
+	let incorrect_answers = $state(0)
 
-	const FLY_DURATION = 300
+	let hint_is_shown = $state(false)
+	let country_is_revealed = $state(false)
+	let user_has_answered = $state(false)
+
+	let countries = $derived(country_lists[lang.value])
+	let current_index = $state(Math.floor(Math.random() * COUNTRY_COUNT))
+	let current_country = $derived(countries[current_index].toUpperCase())
+	let country_scramble = $derived(scramble_text(current_country))
+	let country_display = $derived(country_scramble.scrambled)
 
 	function reset() {
 		round = 0
-		show_hint = false
-		reveal_country = false
-		country_guess = ''
-		has_guessed = false
-		correct_guesses = 0
-		incorrect_guesses = 0
-		is_correct = null
+		answer = ''
+		answer_is_correct = null
+		correct_answers = 0
+		incorrect_answers = 0
+		hint_is_shown = false
+		country_is_revealed = false
+		user_has_answered = false
+		current_index = Math.floor(Math.random() * COUNTRY_COUNT)
 	}
-
-	let lang = $state<Lang>(get_lang())
-
-	$effect(() => {
-		document.documentElement.setAttribute('lang', lang)
-	})
-
-	const country_lists = {
-		en: countries_en,
-		de: countries_de,
-		es: countries_es,
-	}
-
-	function change_lang(to: Lang): void {
-		lang = to
-		save_lang_in_storage(lang)
-		reset()
-	}
-
-	let countries = $derived(country_lists[lang])
-	let current_index = $derived(Math.floor(Math.random() * countries.length))
-	let current_country = $derived(countries[current_index].toUpperCase())
-	let current_country_scramble = $derived(scramble_text(current_country))
-	let current_country_scramble_display = $derived(current_country_scramble.scrambled)
 
 	function generate_next_country() {
 		round++
-		is_correct = null
-		show_hint = false
-		reveal_country = false
-		has_guessed = false
-		country_guess = ''
+		answer = ''
+		answer_is_correct = null
+		hint_is_shown = false
+		country_is_revealed = false
+		user_has_answered = false
 		document.body.classList.add('overflow-hidden')
-		current_index = Math.floor(Math.random() * countries.length)
+		current_index = Math.floor(Math.random() * COUNTRY_COUNT)
 		setTimeout(() => {
 			document.body.classList.remove('overflow-hidden')
 		}, FLY_DURATION + 100)
@@ -72,13 +57,13 @@
 	function handle_submit(e: Event) {
 		e.preventDefault()
 
-		is_correct = country_guess.trim().toUpperCase() === current_country
+		answer_is_correct = answer.trim().toUpperCase() === current_country
 
-		if (is_correct) {
-			if (!has_guessed && !reveal_country) {
-				correct_guesses += show_hint ? 0.5 : 1
+		if (answer_is_correct) {
+			if (!user_has_answered && !country_is_revealed) {
+				correct_answers += hint_is_shown ? 0.5 : 1
 			}
-			has_guessed = true
+			user_has_answered = true
 
 			play_unscramble_animation(() => {
 				setTimeout(() => {
@@ -86,304 +71,61 @@
 				}, 1000)
 			})
 		} else {
-			if (!has_guessed) incorrect_guesses++
-			has_guessed = true
+			if (!user_has_answered) incorrect_answers++
+			user_has_answered = true
 		}
 	}
 
 	function play_unscramble_animation(callback: () => void) {
 		const steps = unscramble_text(
 			current_country,
-			current_country_scramble.perms,
-			current_country_scramble.separator,
+			country_scramble.perms,
+			country_scramble.separator,
 		)
-		function next(i: number) {
+
+		function show_step(i: number) {
 			if (i === steps.length) {
 				callback()
 				return
 			}
-			current_country_scramble_display = steps[i]
+			country_display = steps[i]
 			setTimeout(() => {
-				next(i + 1)
+				show_step(i + 1)
 			}, 70)
 		}
-		next(0)
+
+		show_step(0)
 	}
 </script>
 
-<svelte:head>
-	<title>{translations.title[lang]}</title>
-	<meta property="og:title" content={translations.title[lang]} />
-	<meta property="og:description" content="Can you unscramble the country?" />
-	<meta name="description" content="Can you unscramble the country?" />
-	<meta property="og:type" content="Website" />
-	<meta property="og:url" content="https://country-scrambler.netlify.app" />
-	<meta property="og:site_name" content={translations.title[lang]} />
-	<meta
-		property="og:image"
-		content="https://country-scrambler.netlify.app/preview.webp"
-	/>
-</svelte:head>
+<MetaTags />
 
-<nav>
-	<div class="container">
-		<a
-			href="https://github.com/ScriptRaccoon/country-scrambler/"
-			target="_blank"
-			aria-label="GitHub repository"
-		>
-			<Github size={20} />
-		</a>
+<Nav update_lang={reset} />
 
-		<button
-			class="country-button"
-			aria-current={lang === 'de'}
-			onclick={() => change_lang('de')}
-			aria-label="Deutsche Version"
-		>
-			<img src="de.svg" alt="Deutsche Flagge" />
-		</button>
-
-		<button
-			class="country-button"
-			aria-current={lang === 'en'}
-			onclick={() => change_lang('en')}
-			aria-label="English version"
-		>
-			<img src="gb.svg" alt="UK flag" />
-		</button>
-
-		<button
-			class="country-button"
-			aria-current={lang === 'es'}
-			onclick={() => change_lang('es')}
-			aria-label="Versión española"
-		>
-			<img src="es.svg" alt="bandera española" />
-		</button>
-	</div>
-</nav>
-
-<header>
-	<h1>{translations.heading[lang]}</h1>
-</header>
+<Header />
 
 <main class="container">
-	<div class="card-wrapper" aria-live="polite">
-		{#key round}
-			<div
-				class="country-card"
-				out:fly={{ duration: FLY_DURATION, x: 200 }}
-				in:fly={{ duration: FLY_DURATION, x: -200 }}
-			>
-				{current_country_scramble_display}
-			</div>
-		{/key}
-	</div>
+	<CountryCard {country_display} {round} />
 
 	<form onsubmit={handle_submit}>
-		<div class="input-container">
-			<input
-				class="input"
-				type="text"
-				id="country"
-				aria-label={translations.your_answer[lang]}
-				bind:value={country_guess}
-				required
-				aria-describedby="indicator"
-				aria-invalid={is_correct === false}
-				title=""
-			/>
+		<CountryInput {answer_is_correct} bind:answer />
 
-			{#if is_correct !== null}
-				<div
-					class="indicator"
-					id="indicator"
-					in:scale={{ duration: 200, easing: backOut }}
-					out:fade={{ duration: 200 }}
-				>
-					{#if is_correct}
-						<CircleCheck size={26} color="var(--positive-color)" />
-						<span class="sr-only">
-							{translations.answer_is_correct[lang]}
-						</span>
-					{:else}
-						<CircleX size={26} color="var(--negative-color)" />
-						<span class="sr-only">
-							{translations.answer_is_incorrect[lang]}
-						</span>
-					{/if}
-				</div>
-			{/if}
-		</div>
-
-		<div class="actions">
-			<button class="button">
-				{translations.submit[lang]}
-			</button>
-
-			{#if !show_hint}
-				<button class="button" type="button" onclick={() => (show_hint = true)}>
-					{translations.hint[lang]}
-				</button>
-			{:else}
-				<button
-					class="button"
-					type="button"
-					onclick={() => (reveal_country = true)}
-				>
-					{translations.reveal[lang]}
-				</button>
-			{/if}
-
-			<button class="button" type="button" onclick={generate_next_country}>
-				{translations.skip[lang]}
-			</button>
-		</div>
+		<Actions
+			{hint_is_shown}
+			show_hint={() => (hint_is_shown = true)}
+			reveal_country={() => (country_is_revealed = true)}
+			skip={generate_next_country}
+		/>
 	</form>
 
-	<div aria-live="polite">
-		{#if show_hint}
-			<div class="hint" in:fade={{ duration: 250 }} out:fade={{ duration: 160 }}>
-				{#if reveal_country}
-					<Info size={20} /> <strong>{translations.country[lang]}:</strong>
-					<span>{current_country}</span>
-				{:else}
-					<Info size={20} /> <strong>{translations.hint[lang]}:</strong>
-					<span>{current_country.slice(0, 2)}...</span>
-				{/if}
-			</div>
-		{/if}
-	</div>
+	<Hint {hint_is_shown} {country_is_revealed} {current_country} />
 
-	<section class="score" aria-labelledby="score-label" aria-live="polite">
-		<strong id="score-label">
-			{translations.score[lang]}
-		</strong>
-		<div>
-			<CircleCheck size={20} color="var(--positive-color)" />
-			<span aria-hidden="true">{correct_guesses}</span>
-			<span class="sr-only">
-				{translations.answers_correct[lang].replace(
-					'{{ count }}',
-					String(correct_guesses),
-				)}
-			</span>
-		</div>
-		<div>
-			<CircleX size={20} color="var(--negative-color)" />
-			<span aria-hidden="true">{incorrect_guesses}</span>
-			<span class="sr-only">
-				{translations.answers_incorrect[lang].replace(
-					'{{ count }}',
-					String(incorrect_guesses),
-				)}
-			</span>
-		</div>
-	</section>
+	<Score {correct_answers} {incorrect_answers} />
 </main>
 
 <style>
-	nav {
-		padding-block: 0.75rem 0.5rem;
-		color: var(--secondary-font-color);
-
-		.container {
-			display: flex;
-			gap: 0.5rem;
-		}
-	}
-
-	nav a {
-		text-decoration: none;
-		margin-right: auto;
-	}
-
-	.country-button {
-		display: flex;
-		align-items: center;
-
-		opacity: 0.25;
-		&[aria-current='true'] {
-			opacity: 1;
-		}
-
-		img {
-			width: 20px;
-			border-radius: 2px;
-		}
-	}
-
-	header {
-		padding-bottom: 1.5rem;
-		padding-inline: 1rem;
-	}
-
-	.card-wrapper {
-		display: grid;
-
-		> * {
-			grid-row: 1;
-			grid-column: 1;
-		}
-	}
-
-	.country-card {
-		margin-inline: auto;
-		background-color: var(--card-color);
-		box-shadow: 0 0 1rem #0004;
-		padding: 0.4rem 1.5rem;
-		border-radius: 0.25rem;
-		font-size: 2rem;
-	}
-
 	form {
 		margin-block: 1.5rem;
 		position: relative;
-	}
-
-	.input-container {
-		position: relative;
-	}
-
-	.indicator {
-		position: absolute;
-		right: 0.75rem;
-		top: 50%;
-		transform: translateY(-50%);
-		display: flex;
-		align-items: center;
-	}
-
-	.actions {
-		margin-top: 0.75rem;
-		display: grid;
-		gap: 1rem;
-		grid-template-columns: repeat(3, 1fr);
-
-		@media (max-width: 420px) {
-			gap: 0.5rem;
-
-			button {
-				font-size: 1rem;
-			}
-		}
-	}
-
-	.score {
-		font-size: 1.125rem;
-		color: var(--secondary-font-color);
-		display: flex;
-		gap: 1rem;
-	}
-
-	.hint {
-		margin-block: 1rem;
-		background-color: var(--hint-bg-color);
-		padding: 0.4rem 0.6rem;
-		border-radius: 0.25rem;
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
 	}
 </style>
