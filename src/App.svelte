@@ -214,10 +214,6 @@
 				{translations.submit[lang]}
 			</button>
 
-			<button class="button" type="button" onclick={generate_next_country}>
-				{translations.skip[lang]}
-			</button>
-
 			{#if !show_hint}
 				<button class="button" type="button" onclick={() => (show_hint = true)}>
 					{translations.hint[lang]}
@@ -231,6 +227,10 @@
 					{translations.reveal[lang]}
 				</button>
 			{/if}
+
+			<button class="button" type="button" onclick={generate_next_country}>
+				{translations.skip[lang]}
+			</button>
 		</div>
 	</form>
 
