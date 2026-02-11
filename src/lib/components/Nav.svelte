@@ -24,7 +24,7 @@
 			}}
 			aria-label="Deutsche Version"
 		>
-			<img src="de.svg" alt="Deutsche Flagge" />
+			<img src="flags/de.svg" alt="Deutsche Flagge" />
 		</button>
 
 		<button
@@ -36,7 +36,7 @@
 			}}
 			aria-label="English version"
 		>
-			<img src="gb.svg" alt="UK flag" />
+			<img src="flags/gb.svg" alt="UK flag" />
 		</button>
 
 		<button
@@ -48,7 +48,7 @@
 			}}
 			aria-label="Versión española"
 		>
-			<img src="es.svg" alt="bandera española" />
+			<img src="flags/es.svg" alt="bandera española" />
 		</button>
 	</div>
 </nav>
