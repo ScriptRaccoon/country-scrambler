@@ -4,6 +4,6 @@ This is a basic browser quiz game. A random country is chosen, scrambled, and th
 
 <https://country-scrambler.netlify.app>
 
-<br /><img src="https://github.com/user-attachments/assets/0fa18382-2b8e-4e35-9165-fcc0d9cae9dd" width="350" alt="mobile screenshot" />
+<br /><img src="https://github.com/user-attachments/assets/ee7ac3eb-2761-4f04-b345-c8665fdd38a8" width="350" alt="mobile screenshot" />
 
 
