@@ -2,6 +2,7 @@
 	import { fade, fly, scale } from 'svelte/transition'
 	import countries_en from './data/countries_en.json'
 	import countries_de from './data/countries_de.json'
+	import countries_es from './data/countries_es.json'
 	import { scramble_text, unscramble_text } from './lib/utils'
 	import { CircleX, CircleCheck, Info, Github } from 'lucide-svelte'
 	import { backOut } from 'svelte/easing'
@@ -19,9 +20,14 @@
 	const params = new URLSearchParams(window.location.search)
 	const lang_param = params.get('lang')
 
-	let lang = $state<'de' | 'en'>(
-		lang_param === 'de' || lang_param === 'en' ? lang_param : 'en',
-	)
+	const LANGS = ['de', 'en', 'es'] as const
+	type Lang = (typeof LANGS)[number]
+
+	function is_lang(val: unknown): val is Lang {
+		return (LANGS as readonly any[]).includes(val)
+	}
+
+	let lang = $state<Lang>(is_lang(lang_param) ? lang_param : 'en')
 
 	$effect(() => {
 		document.documentElement.setAttribute('lang', lang)
@@ -30,6 +36,7 @@
 	const country_lists = {
 		en: countries_en,
 		de: countries_de,
+		es: countries_es,
 	}
 
 	let countries = $derived(country_lists[lang])
@@ -102,6 +109,14 @@
 			class="country-link"
 		>
 			<img src="de.svg" alt="Deutsche Flagge" />
+		</a>
+		<a
+			href="{window.location.origin}?lang=es"
+			aria-current={lang === 'es'}
+			aria-label="Versión española"
+			class="country-link"
+		>
+			<img src="es.svg" alt="bandera española" />
 		</a>
 		<a
 			href="{window.location.origin}?lang=en"

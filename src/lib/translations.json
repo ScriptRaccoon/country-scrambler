@@ -1,50 +1,62 @@
 {
 	"heading": {
 		"en": "Guess the Country",
-		"de": "Finde das Land"
+		"de": "Finde das Land",
+		"es": "Adivina el país"
 	},
 	"your_answer": {
 		"en": "Your answer",
-		"de": "Deine Antwort"
+		"de": "Deine Antwort",
+		"es": "Tu respuesta"
 	},
 	"answer_is_correct": {
-		"en": "Anwswer is correct",
-		"de": "Antwort ist richtig"
+		"en": "Answer is correct",
+		"de": "Antwort ist richtig",
+		"es": "La respuesta es correcta"
 	},
 	"answer_is_incorrect": {
 		"en": "Answer is incorrect",
-		"de": "Antwort ist falsch"
+		"de": "Antwort ist falsch",
+		"es": "La respuesta es incorrecta"
 	},
 	"submit": {
 		"en": "Submit",
-		"de": "Senden"
+		"de": "Senden",
+		"es": "Enviar"
 	},
 	"skip": {
 		"en": "Skip",
-		"de": "Überspringen"
+		"de": "Überspringen",
+		"es": "Saltar"
 	},
 	"hint": {
 		"en": "Hint",
-		"de": "Hinweis"
+		"de": "Hinweis",
+		"es": "Pista"
 	},
 	"reveal": {
 		"en": "Reveal",
-		"de": "Auflösen"
+		"de": "Auflösen",
+		"es": "Mostrar"
 	},
 	"country": {
 		"en": "Country",
-		"de": "Land"
+		"de": "Land",
+		"es": "País"
 	},
 	"score": {
 		"en": "Score",
-		"de": "Punktzahl"
+		"de": "Punktzahl",
+		"es": "Puntuación"
 	},
 	"answers_correct": {
 		"en": "{{ count }} answers were correct",
-		"de": "{{ count }} Antworten waren richtig"
+		"de": "{{ count }} Antworten waren richtig",
+		"es": "{{ count }} respuestas fueron correctas"
 	},
 	"answers_incorrect": {
 		"en": "{{ count }} answers were incorrect",
-		"de": "{{ count }} Antworten waren falsch"
+		"de": "{{ count }} Antworten waren falsch",
+		"es": "{{ count }} respuestas fueron incorrectas"
 	}
 }
