@@ -1,4 +1,9 @@
 {
+	"title": {
+		"en": "Country scrambler",
+		"de": "Verdrehte Länder",
+		"es": "Mezclador de países"
+	},
 	"heading": {
 		"en": "Guess the Country",
 		"de": "Finde das Land",
