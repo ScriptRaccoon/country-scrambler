@@ -99,7 +99,11 @@
 	}
 
 	function play_unscramble_animation(callback: () => void) {
-		const steps = unscramble_text(current_country, current_country_scramble.perms)
+		const steps = unscramble_text(
+			current_country,
+			current_country_scramble.perms,
+			current_country_scramble.separator,
+		)
 		function next(i: number) {
 			if (i === steps.length) {
 				callback()

@@ -1,9 +1,14 @@
-export function scramble_text(input: string): { scrambled: string; perms: number[][] } {
-	const words = input.split(' ')
+export function scramble_text(input: string): {
+	scrambled: string
+	perms: number[][]
+	separator: string
+} {
+	const separator = input.includes('-') ? '-' : ' '
+	const words = input.split(separator)
 	const scrambled_words = words.map(scramble_word)
-	const scrambled = scrambled_words.map((w) => w.scramble).join(' ')
+	const scrambled = scrambled_words.map((w) => w.scramble).join(separator)
 	const perms = scrambled_words.map((w) => w.perm)
-	return { scrambled, perms }
+	return { scrambled, perms, separator }
 }
 
 function scramble_word(word: string): { scramble: string; perm: number[] } {
@@ -70,8 +75,12 @@ function unscramble_word(word: string, perm: number[]): string[] {
 	return result
 }
 
-export function unscramble_text(input: string, perms: number[][]): string[] {
-	const words = input.split(' ')
+export function unscramble_text(
+	input: string,
+	perms: number[][],
+	separator: string,
+): string[] {
+	const words = input.split(separator)
 	const unscramblings = words.map((w, i) => unscramble_word(w, perms[i]))
 
 	const result: string[] = []
@@ -84,7 +93,7 @@ export function unscramble_text(input: string, perms: number[][]): string[] {
 			...words.slice(0, word_index),
 			unscramblings[word_index][swap_index],
 			...unscramblings.slice(word_index + 1).map((l) => l[0]),
-		].join(' ')
+		].join(separator)
 
 		result.push(word)
 
