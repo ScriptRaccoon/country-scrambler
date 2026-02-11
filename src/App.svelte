@@ -280,15 +280,9 @@
 
 	.actions {
 		margin-top: 1rem;
-		display: flex;
-		justify-content: center;
+		display: grid;
 		gap: 1rem;
-
-		@media (max-width: 500px) {
-			margin-top: 1.5rem;
-			flex-direction: column;
-			gap: 0.5rem;
-		}
+		grid-template-columns: repeat(3, 1fr);
 	}
 
 	.score {
