@@ -3,7 +3,7 @@
 	import countries_en from './data/countries_en.json'
 	import countries_de from './data/countries_de.json'
 	import { scramble_words } from './lib/utils'
-	import { CircleX, CircleCheck, Info } from 'lucide-svelte'
+	import { CircleX, CircleCheck, Info, Github } from 'lucide-svelte'
 	import { backOut } from 'svelte/easing'
 	import translations from './lib/translations.json'
 
@@ -67,9 +67,17 @@
 
 <nav>
 	<a
+		href="https://github.com/ScriptRaccoon/country-scrambler/"
+		target="_blank"
+		aria-label="GitHub repository"
+	>
+		<Github size={20} />
+	</a>
+	<a
 		href="{window.location.origin}?lang=de"
 		aria-current={lang === 'de'}
 		aria-label="Deutsche Version"
+		class="country-link"
 	>
 		<img src="de.svg" alt="Deutsche Flagge" />
 	</a>
@@ -77,6 +85,7 @@
 		href="{window.location.origin}?lang=en"
 		aria-current={lang === 'en'}
 		aria-label="English version"
+		class="country-link"
 	>
 		<img src="gb.svg" alt="UK flag" />
 	</a>
@@ -195,29 +204,35 @@
 
 <style>
 	nav {
-		position: absolute;
-		top: 0.5rem;
-		right: 0.5rem;
+		padding-block: 0.5rem;
+		padding-inline: 1rem;
 		display: flex;
 		gap: 0.5rem;
 
 		a {
-			opacity: 0.25;
 			text-decoration: none;
-		}
 
-		a[aria-current='true'] {
-			opacity: 1;
+			&:first-child {
+				margin-right: auto;
+			}
 		}
+	}
 
+	.country-link {
 		img {
 			width: 20px;
 			border-radius: 2px;
 		}
+
+		opacity: 0.25;
+
+		&[aria-current='true'] {
+			opacity: 1;
+		}
 	}
 
 	header {
-		padding-block: 2rem;
+		padding-bottom: 2rem;
 		padding-inline: 1rem;
 	}
 
