@@ -2,7 +2,7 @@
 	import { fade, fly, scale } from 'svelte/transition'
 	import countries_en from './data/countries_en.json'
 	import countries_de from './data/countries_de.json'
-	import { scramble_words } from './lib/utils'
+	import { scramble_text, unscramble_text } from './lib/utils'
 	import { CircleX, CircleCheck, Info, Github } from 'lucide-svelte'
 	import { backOut } from 'svelte/easing'
 	import translations from './lib/translations.json'
@@ -35,7 +35,8 @@
 	let countries = $derived(country_lists[lang])
 	let current_index = $derived(Math.floor(Math.random() * countries.length))
 	let current_country = $derived(countries[current_index].toUpperCase())
-	let current_country_scrambled = $derived(scramble_words(current_country))
+	let current_country_scramble = $derived(scramble_text(current_country))
+	let current_country_scramble_display = $derived(current_country_scramble.scrambled)
 
 	function generate_next_country() {
 		round++
@@ -49,19 +50,39 @@
 
 	function handle_submit(e: Event) {
 		e.preventDefault()
+
 		is_correct = country_guess.trim().toUpperCase() === current_country
+
 		if (is_correct) {
 			if (!has_guessed && !reveal_country) {
 				correct_guesses += show_hint ? 0.5 : 1
 			}
 			has_guessed = true
-			setTimeout(() => {
-				generate_next_country()
-			}, 1200)
+
+			play_unscramble_animation(() => {
+				setTimeout(() => {
+					generate_next_country()
+				}, 1000)
+			})
 		} else {
 			if (!has_guessed) incorrect_guesses++
 			has_guessed = true
 		}
+	}
+
+	function play_unscramble_animation(callback: () => void) {
+		const steps = unscramble_text(current_country, current_country_scramble.perms)
+		function next(i: number) {
+			if (i === steps.length) {
+				callback()
+				return
+			}
+			current_country_scramble_display = steps[i]
+			setTimeout(() => {
+				next(i + 1)
+			}, 70)
+		}
+		next(0)
 	}
 </script>
 
@@ -105,7 +126,7 @@
 				out:fly={{ duration: 300, x: 200 }}
 				in:fly={{ duration: 300, x: -200 }}
 			>
-				{current_country_scrambled}
+				{current_country_scramble_display}
 			</div>
 		{/key}
 	</div>
