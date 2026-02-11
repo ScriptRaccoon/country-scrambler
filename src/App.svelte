@@ -7,6 +7,7 @@
 	import { CircleX, CircleCheck, Info, Github } from 'lucide-svelte'
 	import { backOut } from 'svelte/easing'
 	import translations from './lib/translations.json'
+	import { get_lang, save_lang_in_storage, type Lang } from './lib/lang'
 
 	let round = $state(0)
 	let show_hint = $state(false)
@@ -30,16 +31,7 @@
 		is_correct = null
 	}
 
-	const locale = window.navigator.language.split('-')[0]
-
-	const LANGS = ['de', 'en', 'es'] as const
-	type Lang = (typeof LANGS)[number]
-
-	function is_lang(val: unknown): val is Lang {
-		return (LANGS as readonly any[]).includes(val)
-	}
-
-	let lang = $state<Lang>(is_lang(locale) ? locale : 'en')
+	let lang = $state<Lang>(get_lang())
 
 	$effect(() => {
 		document.documentElement.setAttribute('lang', lang)
@@ -53,6 +45,7 @@
 
 	function change_lang(to: Lang): void {
 		lang = to
+		save_lang_in_storage(lang)
 		reset()
 	}
 
