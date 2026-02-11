@@ -94,20 +94,20 @@ input:focus-visible {
 	outline: 1px solid var(--font-color);
 }
 
-button {
-	background-color: var(--btn-color);
-	font-weight: 500;
-	font-size: 1.25rem;
-	padding: 0.2rem 0.75rem;
-	border-radius: 0.25rem;
-}
-
 button:not(:disabled) {
 	cursor: pointer;
 }
 
 button:focus-visible {
 	outline: 2px solid var(--font-color);
+}
+
+.button {
+	background-color: var(--btn-color);
+	font-weight: 500;
+	font-size: 1.25rem;
+	padding: 0.2rem 0.75rem;
+	border-radius: 0.25rem;
 }
 
 /* UTILITIES */

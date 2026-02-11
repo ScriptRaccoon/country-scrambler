@@ -17,8 +17,18 @@
 	let incorrect_guesses = $state(0)
 	let is_correct = $state<true | false | null>(null)
 
-	const params = new URLSearchParams(window.location.search)
-	const lang_param = params.get('lang')
+	function reset() {
+		round = 0
+		show_hint = false
+		reveal_country = false
+		country_guess = ''
+		has_guessed = false
+		correct_guesses = 0
+		incorrect_guesses = 0
+		is_correct = null
+	}
+
+	const locale = window.navigator.language.split('-')[0]
 
 	const LANGS = ['de', 'en', 'es'] as const
 	type Lang = (typeof LANGS)[number]
@@ -27,7 +37,7 @@
 		return (LANGS as readonly any[]).includes(val)
 	}
 
-	let lang = $state<Lang>(is_lang(lang_param) ? lang_param : 'en')
+	let lang = $state<Lang>(is_lang(locale) ? locale : 'en')
 
 	$effect(() => {
 		document.documentElement.setAttribute('lang', lang)
@@ -37,6 +47,11 @@
 		en: countries_en,
 		de: countries_de,
 		es: countries_es,
+	}
+
+	function change_lang(to: Lang): void {
+		lang = to
+		reset()
 	}
 
 	let countries = $derived(country_lists[lang])
@@ -102,30 +117,33 @@
 		>
 			<Github size={20} />
 		</a>
-		<a
-			href="{window.location.origin}?lang=de"
+
+		<button
+			class="country-button"
 			aria-current={lang === 'de'}
+			onclick={() => change_lang('de')}
 			aria-label="Deutsche Version"
-			class="country-link"
 		>
 			<img src="de.svg" alt="Deutsche Flagge" />
-		</a>
-		<a
-			href="{window.location.origin}?lang=es"
-			aria-current={lang === 'es'}
-			aria-label="Versión española"
-			class="country-link"
-		>
-			<img src="es.svg" alt="bandera española" />
-		</a>
-		<a
-			href="{window.location.origin}?lang=en"
+		</button>
+
+		<button
+			class="country-button"
 			aria-current={lang === 'en'}
+			onclick={() => change_lang('en')}
 			aria-label="English version"
-			class="country-link"
 		>
 			<img src="gb.svg" alt="UK flag" />
-		</a>
+		</button>
+
+		<button
+			class="country-button"
+			aria-current={lang === 'es'}
+			onclick={() => change_lang('es')}
+			aria-label="Versión española"
+		>
+			<img src="es.svg" alt="bandera española" />
+		</button>
 	</div>
 </nav>
 
@@ -182,20 +200,24 @@
 		</div>
 
 		<div class="actions">
-			<button>
+			<button class="button">
 				{translations.submit[lang]}
 			</button>
 
-			<button type="button" onclick={generate_next_country}>
+			<button class="button" type="button" onclick={generate_next_country}>
 				{translations.skip[lang]}
 			</button>
 
 			{#if !show_hint}
-				<button type="button" onclick={() => (show_hint = true)}>
+				<button class="button" type="button" onclick={() => (show_hint = true)}>
 					{translations.hint[lang]}
 				</button>
 			{:else}
-				<button type="button" onclick={() => (reveal_country = true)}>
+				<button
+					class="button"
+					type="button"
+					onclick={() => (reveal_country = true)}
+				>
 					{translations.reveal[lang]}
 				</button>
 			{/if}
@@ -250,26 +272,25 @@
 			display: flex;
 			gap: 0.5rem;
 		}
-
-		a {
-			text-decoration: none;
-
-			&:first-child {
-				margin-right: auto;
-			}
-		}
 	}
 
-	.country-link {
+	nav a {
+		text-decoration: none;
+		margin-right: auto;
+	}
+
+	.country-button {
+		display: flex;
+		align-items: center;
+
+		opacity: 0.25;
+		&[aria-current='true'] {
+			opacity: 1;
+		}
+
 		img {
 			width: 20px;
 			border-radius: 2px;
-		}
-
-		opacity: 0.25;
-
-		&[aria-current='true'] {
-			opacity: 1;
 		}
 	}
 
