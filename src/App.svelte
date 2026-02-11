@@ -141,6 +141,7 @@
 				required
 				aria-describedby="indicator"
 				aria-invalid={is_correct === false}
+				title=""
 			/>
 
 			{#if is_correct !== null}
