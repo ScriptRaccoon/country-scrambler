@@ -34,9 +34,13 @@
 <style>
 	menu {
 		margin-top: 0.75rem;
-		display: grid;
+		display: flex;
+		flex-wrap: wrap;
 		gap: 1rem;
-		grid-template-columns: repeat(3, 1fr);
+
+		> button {
+			flex: 1;
+		}
 
 		@media (max-width: 420px) {
 			gap: 0.5rem;
