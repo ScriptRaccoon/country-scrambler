@@ -66,29 +66,31 @@
 </script>
 
 <nav>
-	<a
-		href="https://github.com/ScriptRaccoon/country-scrambler/"
-		target="_blank"
-		aria-label="GitHub repository"
-	>
-		<Github size={20} />
-	</a>
-	<a
-		href="{window.location.origin}?lang=de"
-		aria-current={lang === 'de'}
-		aria-label="Deutsche Version"
-		class="country-link"
-	>
-		<img src="de.svg" alt="Deutsche Flagge" />
-	</a>
-	<a
-		href="{window.location.origin}?lang=en"
-		aria-current={lang === 'en'}
-		aria-label="English version"
-		class="country-link"
-	>
-		<img src="gb.svg" alt="UK flag" />
-	</a>
+	<div class="container">
+		<a
+			href="https://github.com/ScriptRaccoon/country-scrambler/"
+			target="_blank"
+			aria-label="GitHub repository"
+		>
+			<Github size={20} />
+		</a>
+		<a
+			href="{window.location.origin}?lang=de"
+			aria-current={lang === 'de'}
+			aria-label="Deutsche Version"
+			class="country-link"
+		>
+			<img src="de.svg" alt="Deutsche Flagge" />
+		</a>
+		<a
+			href="{window.location.origin}?lang=en"
+			aria-current={lang === 'en'}
+			aria-label="English version"
+			class="country-link"
+		>
+			<img src="gb.svg" alt="UK flag" />
+		</a>
+	</div>
 </nav>
 
 <header>
@@ -205,9 +207,12 @@
 <style>
 	nav {
 		padding-block: 0.5rem;
-		padding-inline: 1rem;
-		display: flex;
-		gap: 0.5rem;
+		color: var(--secondary-font-color);
+
+		.container {
+			display: flex;
+			gap: 0.5rem;
+		}
 
 		a {
 			text-decoration: none;
@@ -232,13 +237,7 @@
 	}
 
 	header {
-		padding-bottom: 2rem;
-		padding-inline: 1rem;
-	}
-
-	.container {
-		max-width: 600px;
-		margin-inline: auto;
+		padding-bottom: 1.5rem;
 		padding-inline: 1rem;
 	}
 
@@ -252,18 +251,16 @@
 	}
 
 	.country-card {
-		width: fit-content;
 		margin-inline: auto;
 		background-color: var(--card-color);
 		box-shadow: 0 0 1rem #0004;
-		padding: 0.5rem 1rem;
+		padding: 0.4rem 1.5rem;
 		border-radius: 0.25rem;
 		font-size: 2rem;
 	}
 
 	form {
-		margin-top: 1rem;
-		margin-bottom: 2rem;
+		margin-block: 1.5rem;
 		position: relative;
 	}
 
@@ -279,20 +276,25 @@
 	}
 
 	.actions {
-		margin-top: 1rem;
+		margin-top: 0.5rem;
 		display: grid;
 		gap: 1rem;
 		grid-template-columns: repeat(3, 1fr);
+
+		@media (max-width: 420px) {
+			gap: 0.5rem;
+		}
 	}
 
 	.score {
-		margin-top: 2rem;
 		font-size: 1.125rem;
+		color: var(--secondary-font-color);
 		display: flex;
 		gap: 1rem;
 	}
 
 	.hint {
+		margin-block: 1rem;
 		background-color: var(--hint-bg-color);
 		padding: 0.4rem 0.6rem;
 		border-radius: 0.25rem;
