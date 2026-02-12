@@ -74,6 +74,8 @@
 		align-items: center;
 
 		opacity: 0.25;
+		transition: opacity 200ms ease;
+
 		&[aria-current='true'] {
 			opacity: 1;
 		}
