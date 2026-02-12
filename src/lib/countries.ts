@@ -7,5 +7,3 @@ export const country_lists = {
 	de: countries_de,
 	es: countries_es,
 }
-
-export const COUNTRY_COUNT = countries_en.length

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { COUNTRY_COUNT, country_lists } from '$lib/countries'
+	import { country_lists } from '$lib/countries'
 	import { scramble_text, unscramble_text } from '$lib/scrambling'
 	import { FLY_DURATION } from '$lib/constants'
 	import MetaTags from '$lib/components/MetaTags.svelte'
@@ -23,7 +23,7 @@
 	let user_has_answered = $state(false)
 
 	let countries = $derived(country_lists[lang.value])
-	let current_index = $state(Math.floor(Math.random() * COUNTRY_COUNT))
+	let current_index = $derived(Math.floor(Math.random() * countries.length))
 	let current_country = $derived(countries[current_index].toUpperCase())
 	let country_scramble = $derived(scramble_text(current_country))
 	let country_display = $derived(country_scramble.scrambled)
@@ -37,7 +37,7 @@
 		hint_is_shown = false
 		country_is_revealed = false
 		user_has_answered = false
-		current_index = Math.floor(Math.random() * COUNTRY_COUNT)
+		current_index = Math.floor(Math.random() * countries.length)
 	}
 
 	function generate_next_country() {
@@ -48,7 +48,7 @@
 		country_is_revealed = false
 		user_has_answered = false
 		document.body.classList.add('overflow-hidden')
-		current_index = Math.floor(Math.random() * COUNTRY_COUNT)
+		current_index = Math.floor(Math.random() * countries.length)
 		setTimeout(() => {
 			document.body.classList.remove('overflow-hidden')
 		}, FLY_DURATION + 100)
