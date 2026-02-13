@@ -2,66 +2,79 @@
 	"title": {
 		"en": "Country scrambler",
 		"de": "Verdrehte Länder",
-		"es": "Mezclador de países"
+		"es": "Mezclador de países",
+		"fr": "Mélangeur de pays"
 	},
 	"heading": {
 		"en": "Guess the Country",
 		"de": "Finde das Land",
-		"es": "Adivina el país"
+		"es": "Adivina el país",
+		"fr": "Devine le pays"
 	},
 	"your_answer": {
 		"en": "Your answer",
 		"de": "Deine Antwort",
-		"es": "Tu respuesta"
+		"es": "Tu respuesta",
+		"fr": "Votre réponse"
 	},
 	"answer_is_correct": {
 		"en": "Answer is correct",
 		"de": "Antwort ist richtig",
-		"es": "La respuesta es correcta"
+		"es": "La respuesta es correcta",
+		"fr": "La réponse est correcte"
 	},
 	"answer_is_incorrect": {
 		"en": "Answer is incorrect",
 		"de": "Antwort ist falsch",
-		"es": "La respuesta es incorrecta"
+		"es": "La respuesta es incorrecta",
+		"fr": "La réponse est incorrecte"
 	},
 	"submit": {
 		"en": "Submit",
 		"de": "Senden",
-		"es": "Enviar"
+		"es": "Enviar",
+		"fr": "Valider"
 	},
 	"skip": {
 		"en": "Skip",
 		"de": "Überspringen",
-		"es": "Saltar"
+		"es": "Saltar",
+		"fr": "Passer"
 	},
 	"hint": {
 		"en": "Hint",
 		"de": "Hinweis",
-		"es": "Pista"
+		"es": "Pista",
+		"fr": "Indice"
 	},
 	"reveal": {
 		"en": "Reveal",
 		"de": "Auflösen",
-		"es": "Mostrar"
+		"es": "Mostrar",
+		"fr": "Révéler"
 	},
 	"country": {
 		"en": "Country",
 		"de": "Land",
-		"es": "País"
+		"es": "País",
+		"fr": "Pays"
 	},
 	"score": {
 		"en": "Score",
 		"de": "Punktzahl",
-		"es": "Puntuación"
+		"es": "Puntuación",
+		"fr": "Score"
 	},
 	"answers_correct": {
 		"en": "{{ count }} answers were correct",
 		"de": "{{ count }} Antworten waren richtig",
-		"es": "{{ count }} respuestas fueron correctas"
+		"es": "{{ count }} respuestas fueron correctas",
+		"fr": "{{ count }} réponses étaient correctes"
 	},
 	"answers_incorrect": {
 		"en": "{{ count }} answers were incorrect",
 		"de": "{{ count }} Antworten waren falsch",
-		"es": "{{ count }} respuestas fueron incorrectas"
+		"es": "{{ count }} respuestas fueron incorrectas",
+		"fr": "{{ count }} réponses étaient incorrectes"
 	}
 }

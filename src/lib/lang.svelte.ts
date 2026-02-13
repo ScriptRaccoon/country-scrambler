@@ -1,6 +1,6 @@
 import translations from './translations.json'
 
-const LANGS = ['de', 'en', 'es'] as const
+const LANGS = ['de', 'en', 'es', 'fr'] as const
 const DEFAULT_LANG = 'en'
 
 type Lang = (typeof LANGS)[number]

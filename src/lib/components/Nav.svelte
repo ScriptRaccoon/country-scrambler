@@ -50,6 +50,18 @@
 		>
 			<img src="flags/es.svg" alt="bandera española" />
 		</button>
+
+		<button
+			class="country-button"
+			aria-current={lang.value === 'fr'}
+			onclick={() => {
+				set_lang('fr')
+				update_lang()
+			}}
+			aria-label="version française"
+		>
+			<img src="flags/fr.svg" alt="drapeau français" />
+		</button>
 	</div>
 </nav>
 

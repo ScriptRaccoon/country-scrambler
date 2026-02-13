@@ -8,7 +8,7 @@ This is a browser-based quiz game. A random country is selected and scrambled. T
 
 ## Features
 
-- Three languages: EN, DE, ES
+- Four languages: EN, DE, ES, FR
 - Optional hint
 - Reveal the answer if needed
 - +1 point for correct guesses
@@ -16,6 +16,3 @@ This is a browser-based quiz game. A random country is selected and scrambled. T
 - −1 point for incorrect guesses
 - Skip countries
 - Correct answers trigger an animation that restores the original spelling
-
-
-

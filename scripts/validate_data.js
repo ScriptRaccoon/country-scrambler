@@ -14,17 +14,26 @@ async function check_countries() {
 	const file_url_es = new URL('../src/lib/data/countries_es.json', import.meta.url)
 	const countries_es = JSON.parse(await readFile(file_url_es, 'utf-8'))
 
+	const file_url_fr = new URL('../src/lib/data/countries_fr.json', import.meta.url)
+	const countries_fr = JSON.parse(await readFile(file_url_fr, 'utf-8'))
+
 	const lengths = {
 		en: countries_en.length,
 		de: countries_de.length,
 		es: countries_es.length,
+		fr: countries_fr.length,
 	}
 
-	if (lengths.en === lengths.de && lengths.en === lengths.es) {
+	if (
+		lengths.en === lengths.de &&
+		lengths.en === lengths.es &&
+		lengths.en === lengths.fr
+	) {
 		console.info('Done ✅')
 	} else {
 		throw new Error(
-			`Country lists have different lengths: EN=${lengths.en}, DE=${lengths.de}, ES=${lengths.es}`,
+			`Country lists have different lengths: ` +
+				`EN=${lengths.en}, DE=${lengths.de}, ES=${lengths.es}; FR=${lengths.fr}`,
 		)
 	}
 }
