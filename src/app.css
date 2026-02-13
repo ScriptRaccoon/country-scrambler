@@ -78,7 +78,8 @@ a {
 /* INTERACTIVE ELEMENTS */
 
 input,
-button {
+button,
+select {
 	color: inherit;
 	font: inherit;
 	background: none;
@@ -113,6 +114,16 @@ button:focus-visible {
 	font-size: 1.25rem;
 	padding: 0.2rem 0.5rem;
 	border-radius: 0.25rem;
+}
+
+.select {
+	background-color: var(--input-bg-color);
+	border-radius: 0.25rem;
+	padding: 0.2rem 0.3rem;
+}
+
+.select:focus-visible {
+	outline: 1px solid var(--font-color);
 }
 
 /* UTILITIES */

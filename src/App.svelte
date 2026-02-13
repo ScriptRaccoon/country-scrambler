@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { country_lists } from '$lib/countries'
 	import { scramble_text, unscramble_text, get_matching_letters } from '$lib/scrambling'
-	import { FLY_DURATION } from '$lib/constants'
+	import { FLY_DURATION, SHOW_DURATION } from '$lib/constants'
 	import MetaTags from '$lib/components/MetaTags.svelte'
 	import Nav from '$lib/components/Nav.svelte'
 	import Score from '$lib/components/Score.svelte'
@@ -11,6 +11,8 @@
 	import Hint from '$lib/components/Hint.svelte'
 	import CountryInput from '$lib/components/CountryInput.svelte'
 	import { lang } from '$lib/lang.svelte'
+	import ModeSelect from '$lib/components/ModeSelect.svelte'
+	import type { ModeType } from '$lib/types'
 
 	let round = $state(0)
 	let answer = $state('')
@@ -18,10 +20,13 @@
 	let correct_answers = $state(0)
 	let incorrect_answers = $state(0)
 
+	let mode = $state<ModeType>('easy')
+
 	let hint_is_shown = $state(false)
 	let country_is_revealed = $state(false)
 	let user_has_answered = $state(false)
 	let highlight_letters = $state(true)
+	let country_is_visible = $state(true)
 
 	let countries = $derived(country_lists[lang.value])
 	let current_index = $derived(Math.floor(Math.random() * countries.length))
@@ -39,6 +44,7 @@
 		country_is_revealed = false
 		user_has_answered = false
 		highlight_letters = true
+		country_is_visible = true
 		current_index = Math.floor(Math.random() * countries.length)
 	}
 
@@ -50,11 +56,18 @@
 		country_is_revealed = false
 		user_has_answered = false
 		highlight_letters = true
+		country_is_visible = true
 		document.body.classList.add('overflow-hidden')
 		current_index = Math.floor(Math.random() * countries.length)
 		setTimeout(() => {
 			document.body.classList.remove('overflow-hidden')
 		}, FLY_DURATION + 100)
+
+		if (mode === 'hard') {
+			setTimeout(() => {
+				country_is_visible = false
+			}, FLY_DURATION + SHOW_DURATION)
+		}
 	}
 
 	function handle_submit(e: Event) {
@@ -64,6 +77,7 @@
 
 		if (answer_is_correct) {
 			highlight_letters = false
+			country_is_visible = true
 			if (!user_has_answered && !country_is_revealed) {
 				correct_answers += hint_is_shown ? 0.5 : 1
 			}
@@ -110,9 +124,10 @@
 
 <main class="container">
 	<CountryCard
+		visible={country_is_visible}
 		{country_display}
 		{round}
-		highlighted_letters={highlight_letters
+		highlighted_letters={highlight_letters && mode === 'easy'
 			? get_matching_letters(answer, country_display)
 			: undefined}
 	/>
@@ -130,12 +145,21 @@
 
 	<Hint {hint_is_shown} {country_is_revealed} {current_country} />
 
-	<Score {correct_answers} {incorrect_answers} />
+	<div class="bar">
+		<Score {correct_answers} {incorrect_answers} />
+		<ModeSelect bind:mode />
+	</div>
 </main>
 
 <style>
 	form {
 		margin-block: 1.5rem;
 		position: relative;
+	}
+
+	.bar {
+		font-size: 1.125rem;
+		display: flex;
+		justify-content: space-between;
 	}
 </style>

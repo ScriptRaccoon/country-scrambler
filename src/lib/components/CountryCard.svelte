@@ -6,15 +6,17 @@
 		country_display: string
 		round: number
 		highlighted_letters?: Set<number>
+		visible: boolean
 	}
 
-	let { country_display, round, highlighted_letters }: Props = $props()
+	let { country_display, round, highlighted_letters, visible }: Props = $props()
 </script>
 
 <div class="card-wrapper" aria-live="polite">
 	{#key round}
 		<div
 			class="country-card"
+			class:hidden={!visible}
 			out:fly={{ duration: FLY_DURATION, x: 200 }}
 			in:fly={{ duration: FLY_DURATION, x: -200 }}
 		>
@@ -46,6 +48,12 @@
 		overflow-x: auto;
 		scrollbar-width: thin;
 		scrollbar-color: #fffa transparent;
+		transition: opacity 300ms ease;
+
+		&.hidden {
+			opacity: 0;
+			pointer-events: none;
+		}
 	}
 
 	span {

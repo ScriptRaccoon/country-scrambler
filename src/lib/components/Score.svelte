@@ -32,7 +32,6 @@
 
 <style>
 	section {
-		font-size: 1.125rem;
 		color: var(--secondary-font-color);
 		display: flex;
 		gap: 1rem;
