@@ -106,3 +106,17 @@ export function unscramble_text(
 
 	return result
 }
+
+export function get_matching_letters(answer: string, scramble: string): Set<number> {
+	const scramble_arr = [...scramble]
+	const indices = new Set<number>()
+
+	for (const char of answer) {
+		const ind = scramble_arr.findIndex(
+			(val, ind) => val.toUpperCase() === char.toUpperCase() && !indices.has(ind),
+		)
+		if (ind >= 0) indices.add(ind)
+	}
+
+	return indices
+}

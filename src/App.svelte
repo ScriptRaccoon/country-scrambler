@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { country_lists } from '$lib/countries'
-	import { scramble_text, unscramble_text } from '$lib/scrambling'
+	import { scramble_text, unscramble_text, get_matching_letters } from '$lib/scrambling'
 	import { FLY_DURATION } from '$lib/constants'
 	import MetaTags from '$lib/components/MetaTags.svelte'
 	import Nav from '$lib/components/Nav.svelte'
@@ -21,6 +21,7 @@
 	let hint_is_shown = $state(false)
 	let country_is_revealed = $state(false)
 	let user_has_answered = $state(false)
+	let highlight_letters = $state(true)
 
 	let countries = $derived(country_lists[lang.value])
 	let current_index = $derived(Math.floor(Math.random() * countries.length))
@@ -37,6 +38,7 @@
 		hint_is_shown = false
 		country_is_revealed = false
 		user_has_answered = false
+		highlight_letters = true
 		current_index = Math.floor(Math.random() * countries.length)
 	}
 
@@ -47,6 +49,7 @@
 		hint_is_shown = false
 		country_is_revealed = false
 		user_has_answered = false
+		highlight_letters = true
 		document.body.classList.add('overflow-hidden')
 		current_index = Math.floor(Math.random() * countries.length)
 		setTimeout(() => {
@@ -60,6 +63,7 @@
 		answer_is_correct = answer.trim().toUpperCase() === current_country
 
 		if (answer_is_correct) {
+			highlight_letters = false
 			if (!user_has_answered && !country_is_revealed) {
 				correct_answers += hint_is_shown ? 0.5 : 1
 			}
@@ -105,7 +109,13 @@
 <Header />
 
 <main class="container">
-	<CountryCard {country_display} {round} />
+	<CountryCard
+		{country_display}
+		{round}
+		highlighted_letters={highlight_letters
+			? get_matching_letters(answer, country_display)
+			: undefined}
+	/>
 
 	<form onsubmit={handle_submit}>
 		<CountryInput {answer_is_correct} bind:answer />

@@ -5,9 +5,10 @@
 	type Props = {
 		country_display: string
 		round: number
+		highlighted_letters?: Set<number>
 	}
 
-	let { country_display, round }: Props = $props()
+	let { country_display, round, highlighted_letters }: Props = $props()
 </script>
 
 <div class="card-wrapper" aria-live="polite">
@@ -17,7 +18,9 @@
 			out:fly={{ duration: FLY_DURATION, x: 200 }}
 			in:fly={{ duration: FLY_DURATION, x: -200 }}
 		>
-			{country_display}
+			{#each [...country_display] as char, i}
+				<span class:highlighted={highlighted_letters?.has(i)}>{char}</span>
+			{/each}
 		</div>
 	{/key}
 </div>
@@ -41,8 +44,15 @@
 		font-size: 2rem;
 		max-width: calc(100vw - 2rem);
 		overflow-x: auto;
-
 		scrollbar-width: thin;
 		scrollbar-color: #fffa transparent;
+	}
+
+	span {
+		transition: color 200ms ease;
+
+		&.highlighted {
+			color: var(--letter-highlight-color);
+		}
 	}
 </style>
