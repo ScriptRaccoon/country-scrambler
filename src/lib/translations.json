@@ -76,5 +76,23 @@
 		"de": "{{ count }} Antworten waren falsch",
 		"es": "{{ count }} respuestas fueron incorrectas",
 		"fr": "{{ count }} réponses étaient incorrectes"
+	},
+	"mode": {
+		"en": "Mode",
+		"de": "Modus",
+		"es": "Modo",
+		"fr": "Mode"
+	},
+	"easy": {
+		"en": "easy",
+		"de": "einfach",
+		"es": "fácil",
+		"fr": "facile"
+	},
+	"hard": {
+		"en": "hard",
+		"de": "schwer",
+		"es": "difícil",
+		"fr": "difficile"
 	}
 }
